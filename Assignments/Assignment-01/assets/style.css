@@ -1,0 +1,345 @@
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: "Poppins";
+}
+
+/*general rules*/
+
+html {
+    font-family: 'Poppins';
+    background-color: #F5F7F9;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+h1 {
+    font-size: 24px;
+    text-align: center;
+    margin: 24px 16px;
+}
+
+input,
+button {
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: none;
+    font: inherit;
+    color: inherit;
+    outline: none;
+    box-sizing: border-box;
+}
+
+button {
+    border: 1px solid black;
+    padding: 1rem;
+    border-radius: 1rem;
+}
+
+/*input and add button*/
+
+#add-container {
+    display: flex;
+    gap: 1rem;
+    margin: 24px 16px;
+}
+
+#task-input {
+    width: 100%;
+    border: 1px solid black;
+    padding: 1rem;
+    border-radius: 1rem;
+}
+
+/*view list mode toggle*/
+
+#view-toggle-container {
+    display: flex;
+    gap: 1rem;
+}
+
+.toggle-btn {
+    background-color: whitesmoke;
+    width: 50%;
+}
+
+
+
+.card-view {
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: 0;
+}
+
+li {
+    display: block;
+    width: 100%;
+}
+
+li p {
+    width: 100%;
+    font-size: 14px;
+}
+#task-list-container {
+    
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin: 16px;
+    padding: 0;
+}
+
+.list-element-container {
+    border-radius: 12px;
+    border: 1px solid #DEE4EC;
+    background: #D2E0FB;
+    display: flex;
+    width: auto;
+    padding: 16px;
+    align-items: center;
+    gap: 10px;
+}
+
+/* .list-element {
+    background-color: #D2E0FB;
+    height: 3rem;
+    border: 1px solid black;
+    border-radius: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1rem;
+} */
+
+/*list-view*/
+
+.list-view {
+    border: 1px solid black;
+    border-radius: 1rem;
+    padding: 1rem 1rem 1rem 2rem;
+    background-color: orange;
+    list-style-type: disc;
+}
+
+.list-view li {
+    height: 2rem;
+    display: list-item;
+}
+
+/*buttons*/
+
+/*general button rules*/
+
+button:hover {
+    cursor: pointer;
+}
+
+.toggle-btn:hover {
+    background-color: royalblue;
+}
+
+.toggle-btn:active {
+    background-color: mediumblue;
+    color: white;
+}
+
+#add-btn:hover {
+    background-color: darkorange;
+}
+
+#add-btn:active {
+    background-color: orangered;
+    color: white;
+}
+
+
+
+/*switcher rules*/
+
+.view-switch {
+    display: flex;
+    background-color: #f9fbfd;
+    border: 2px solid #D6DDE7;
+    border-radius: 0.8rem;
+    overflow: hidden;
+    width: fit-content;
+    padding: 0.2rem;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+}
+
+.switch-option {
+    padding: 0.6rem 1.8rem;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #222;
+    transition: background-color 0.3s, color 0.3s;
+    border-radius: 0.8rem
+}
+
+.switch-option.active {
+    background-color: #D6DDE7;
+    /* selected background color */
+}
+
+.switch-option:not(.active):hover {
+    background-color: #eef1f6;
+}
+
+
+section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 1rem 1rem;
+}
+
+
+.delete-btn {
+    background: none;
+    border: none;
+    padding: 0px;
+    cursor: pointer;
+    display: flex;
+    width: fit-content;
+    height: fit-content;
+    position: relative;
+}
+
+.delete-btn:hover img {
+    content: url("imgs/Trashbin-Hover-New.svg");
+}
+
+.delete-btn:active img {
+    content: url("imgs/Trashbin-Pressed-New.svg");
+}
+
+.delete-btn::before {
+    content: '';
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    bottom: -8px;
+    left: -8px;
+    /* Creates an invisible 16px larger touch target */
+}
+
+.paint-btn{
+    background: none;
+    border: none;
+    padding: 0px;
+    cursor: pointer;
+    display: flex;
+    width: fit-content;
+    height: fit-content;
+    position: relative;
+}
+
+.paint-btn:hover img {
+    content: url("imgs/Paint-Hover.svg");
+}
+
+.paint-btn:active img {
+    content: url("imgs/Paint-Pressed.svg");
+}
+
+.paint-btn::before {
+    content: '';
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    bottom: -8px;
+    left: -8px;
+    /* Creates an invisible 16px larger touch target */
+}

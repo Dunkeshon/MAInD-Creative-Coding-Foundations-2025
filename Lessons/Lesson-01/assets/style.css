@@ -1,0 +1,66 @@
+#myflexbox {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background-color: #f0f0f0;
+}
+.box {
+    width: 100px;
+    height: 100px;
+    margin: 10px;
+    background-color: #4CAF50;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+}
+#special-box {
+    background-color: #FF5722;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+}
+
+
+#aside-layout {
+        display: flex;
+        flex-direction: column;
+
+    }
+    #together-layout {
+        display: flex;
+        flex-direction: column;
+    
+    }
+
+
+/* Phone (default) - up to 600px */
+/* Default styles are already set above */
+
+/* Tablet - 600px to 1024px */
+@media only screen and (min-width: 600px) {
+    #aside-layout {
+        flex-direction: row;
+       
+    }
+    #together-layout {
+        flex-direction: column;
+     
+    }
+}
+
+/* Laptop - 1024px and above */
+@media only screen and (min-width: 780px) {
+     #aside-layout {
+        flex-direction: row;
+     
+    }
+    #together-layout {
+        flex-direction: row;
+    
+    }
+}   
