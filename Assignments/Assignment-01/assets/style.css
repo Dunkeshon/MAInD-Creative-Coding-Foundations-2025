@@ -83,7 +83,7 @@ video {
     padding: 0;
     border: 0;
     font-size: 100%;
-    font: "Poppins";
+    font-family: 'Inter';
 }
 
 /*general rules*/
@@ -156,6 +156,7 @@ button {
     display: flex;
     flex-wrap: wrap;
     padding-left: 0;
+    background-color: black;
 }
 
 li {
@@ -168,7 +169,6 @@ li p {
     font-size: 14px;
 }
 #task-list-container {
-    
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
@@ -176,10 +176,18 @@ li p {
     padding: 0;
 }
 
+.empty-state {
+    text-align: center;
+    color: #8C8C8C;
+    font-size: 16px;
+    margin: 32px 16px;
+    font-style: italic;
+}
+
 .list-element-container {
     border-radius: 12px;
-    border: 1px solid #DEE4EC;
-    background: #D2E0FB;
+    border: 1px solid rgb(236, 234, 222);
+    background: #eceaaa;
     display: flex;
     width: auto;
     padding: 16px;
@@ -187,31 +195,7 @@ li p {
     gap: 10px;
 }
 
-/* .list-element {
-    background-color: #D2E0FB;
-    height: 3rem;
-    border: 1px solid black;
-    border-radius: 1rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 1rem;
-} */
 
-/*list-view*/
-
-.list-view {
-    border: 1px solid black;
-    border-radius: 1rem;
-    padding: 1rem 1rem 1rem 2rem;
-    background-color: orange;
-    list-style-type: disc;
-}
-
-.list-view li {
-    height: 2rem;
-    display: list-item;
-}
 
 /*buttons*/
 
@@ -231,11 +215,11 @@ button:hover {
 }
 
 #add-btn:hover {
-    background-color: darkorange;
+    background-color: rgb(236, 191, 137);
 }
 
 #add-btn:active {
-    background-color: orangered;
+    background-color:  rgb(230, 176, 109);
     color: white;
 }
 
@@ -257,7 +241,7 @@ button:hover {
 }
 
 .switch-option {
-    padding: 0.6rem 1.8rem;
+    padding: 1rem 2.5rem;
     border: none;
     background: transparent;
     cursor: pointer;
@@ -270,7 +254,6 @@ button:hover {
 
 .switch-option.active {
     background-color: #D6DDE7;
-    /* selected background color */
 }
 
 .switch-option:not(.active):hover {
@@ -295,14 +278,17 @@ section {
     width: fit-content;
     height: fit-content;
     position: relative;
+     opacity: 50%;
 }
 
 .delete-btn:hover img {
-    content: url("imgs/Trashbin-Hover-New.svg");
+    opacity: 30%;
 }
 
 .delete-btn:active img {
-    content: url("imgs/Trashbin-Pressed-New.svg");
+    content: url("imgs/Bin\ Selected.svg");
+    opacity: 100%;
+
 }
 
 .delete-btn::before {
@@ -324,14 +310,16 @@ section {
     width: fit-content;
     height: fit-content;
     position: relative;
+    opacity: 50%;
 }
 
 .paint-btn:hover img {
-    content: url("imgs/Paint-Hover.svg");
+    opacity: 30%;
 }
 
 .paint-btn:active img {
-    content: url("imgs/Paint-Pressed.svg");
+    content: url("imgs/Brush\ Selected.svg");
+    opacity: 100%;
 }
 
 .paint-btn::before {
@@ -342,4 +330,73 @@ section {
     bottom: -8px;
     left: -8px;
     /* Creates an invisible 16px larger touch target */
+}
+
+/* mini color picker (new classes) */
+.cp-popup {
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate(8px, -8px);
+    background: #ffffff;
+    border: 1px solid #DEE4EC;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    padding: 12px;
+    z-index: 100;
+}
+
+.cp-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    min-width: 180px;
+}
+
+.cp-color {
+    width: 100%;
+    height: 120px;
+    border: none;
+    padding: 0;
+    border-radius: 10px;
+    background: transparent;
+    cursor: pointer;
+}
+
+.cp-hex {
+    width: 100%;
+    border: 1px solid #DEE4EC;
+    padding: 8px 10px;
+    border-radius: 8px;
+    text-transform: uppercase;
+}
+
+.cp-close {
+    border: 1px solid #D6DDE7;
+    border-radius: 8px;
+    padding: 6px 10px;
+    background: #F5F7F9;
+    cursor: pointer;
+    align-self:flex-end;
+}
+
+.cp-close:hover {
+    background: #EEF1F6;
+}
+
+/* shake animation for empty input feedback */
+@keyframes shake {
+    0% { transform: translateX(0); }
+    20% { transform: translateX(-8px); }
+    40% { transform: translateX(8px); }
+    60% { transform: translateX(-6px); }
+    80% { transform: translateX(6px); }
+    100% { transform: translateX(0); }
+}
+
+#task-input.shake {
+    animation: shake 420ms cubic-bezier(.36,.07,.19,.97);
+    border-color: #FF7A45; /* emphasize the input border when shaking */
+    box-shadow: 0 6px 18px rgba(255,122,69,0.12);
 }

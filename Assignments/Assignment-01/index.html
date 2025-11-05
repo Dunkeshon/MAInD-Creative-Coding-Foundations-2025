@@ -6,22 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="assets/style.css">
     <script src="assets/script.js" defer></script>
-    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Inter' rel='stylesheet'>
     <title>Your Pinboard</title>
 </head>
 
 <body>
     <header>
-        <h1>Your Pinboard</h1>
+        <h1>Mobile Pinboard</h1>
 
-        <!--switcher-->
+        
         <div class="view-switch">
             <button class="switch-option active" id="list-view-switch">List View</button>
             <button class="switch-option" id="card-view-switch">Card View</button>
         </div>
 
 
-        <!--input and add button-->
+        
         <div id="add-container">
             <input type="text" id="task-input" placeholder="Add your note...">
             <button id="add-btn">+</button>
@@ -36,18 +36,13 @@
             
         </section>
 
-        <!-- to-do list -->
-        <ul id="task-list-container" class="card-view">
-            <li class="list-element-container">  
-                <p> Learn HTML & CSS</p>
-                <button class="paint-btn">
-                     <img src="assets/imgs/Paint.svg" alt="small fill icon">
-            </button>
-                <button class="delete-btn">
-                     <img src="assets/imgs/Trashbin.svg" alt="small trashbin icon">
-            </button>
-            </li>
-           
+       
+        <p id="empty-state" class="empty-state">Here will be your notes</p>
+
+       
+        <ul id="task-list-container" class="list-view">
+            
+            
         </ul>
     </main>
 </body>
