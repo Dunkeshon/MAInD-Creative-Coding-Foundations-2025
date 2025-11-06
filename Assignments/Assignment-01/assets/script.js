@@ -9,6 +9,7 @@ console.log(cardButton);
 const taskInput = document.getElementById('task-input');
 const taskList = document.getElementById('task-list-container');
 
+///updateEmptyState(): Description shows placeholder if list with notes is empty. Hides otherwise. returns nothing.
 const updateEmptyState = () => {
     if (taskList.children.length === 0) {
         emptyState.style.display = 'block';
@@ -21,6 +22,7 @@ const updateEmptyState = () => {
 
 updateEmptyState();
 
+//anonymous function. Description: lets add new note if Enter key is pressed while focus is on input field.
 taskInput.addEventListener('keypress', (event) => {
     if (event.key === 'Enter') {
         event.preventDefault(); // Prevent form submission
@@ -28,6 +30,7 @@ taskInput.addEventListener('keypress', (event) => {
     }
 });
 
+//shakeTaskInput(): Description: visually indicates an error by shaking the input field when user tries to add an empty note. returns nothing.
 function shakeTaskInput() {
   // visually indicate the error by shaking the input instead of using alert
         // remove class if already present to restart the animation
@@ -45,7 +48,7 @@ function shakeTaskInput() {
         };
         taskInput.addEventListener('animationend', handler);
 }
-
+//switchToListView(): Description: switches the task list to list view mode. returns nothing.
 function switchToListView() {
     taskList.classList.remove('card-view');
     taskList.classList.add('list-view');
@@ -54,7 +57,7 @@ function switchToListView() {
     // for each list element remove .card class 
 
 }
-
+//switchToCardView(): Description: switches the task list to card view mode. returns nothing.
 function switchToCardView() {
     taskList.classList.remove('list-view');
     taskList.classList.add('card-view');
@@ -64,7 +67,7 @@ function switchToCardView() {
    // for each list element add .card class 
 
 }
-
+///makeListElementComponent(text): param - text that needed to be inserted in the note. Description: returns the HTML content for a list element with the given text.
 function makeListElementComponent(text){
    return  `
         <p>${text}</p>
@@ -89,7 +92,7 @@ else {
 listButton.addEventListener('click', switchToListView);
 
 cardButton.addEventListener('click', switchToCardView);
-
+//anonymous function. Description: adds a new note to the list when the add button is clicked.
 addButton.addEventListener('click', () => {
     if (taskInput.value.trim() === '') {
         shakeTaskInput();
@@ -101,6 +104,8 @@ addButton.addEventListener('click', () => {
     listElement.className = 'list-element-container';
     listElement.innerHTML = makeListElementComponent(inputValue);
     const deleteButton = listElement.querySelector('.delete-btn');
+
+    // anonymous function. Description: deletes the note when the delete button is clicked.
     deleteButton.addEventListener('click', () => {
         taskList.removeChild(listElement);
         updateEmptyState(); // Check if we need to show empty state message
@@ -136,6 +141,7 @@ addButton.addEventListener('click', () => {
         const hexInput = popup.querySelector('.cp-hex');
         const closeBtn = popup.querySelector('.cp-close');
 
+        //applyColor(): param - hex color code. Description: applies the selected color to the note background. returns nothing.
         const applyColor = (hex) => {
             const normalized = hex.startsWith('#') ? hex : `#${hex}`;
             listElement.style.backgroundColor = normalized;

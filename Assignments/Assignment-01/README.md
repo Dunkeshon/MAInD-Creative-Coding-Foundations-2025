@@ -21,7 +21,13 @@ Functionality: user can add and delete notes, change the color of the note. User
 
 ## Lista funzioni 
 
-1) Adding the note: User can add new note by pressing enter key while focused on the input field, or by pressing "+" button.
-2) Deleting the note: user can press the corresponding "trashbin" icon to delete a note. 
-3) Changing the color: user can press the corresponding "paint" icon to select a new color for the note.
-4) Switch views: user can switch between 2 responsive views that have support for mobile tablet and laptop. 
+1) updateEmptyState(): Description shows placeholder if list with notes is empty. Hides otherwise. returns nothing.
+2) Adding new note by pressing "Enter" key. anonymous function. Description: lets add new note if Enter key is pressed while focus is on input field.
+3) Adding note by pressing "+" button:   anonymous function. Description: adds a new note to the list when the add button is clicked. returns nothing. 
+4) switchToListView(): Description: switches the task list to list view mode. returns nothing.
+5) switchToCardView(): Description: switches the task list to card view mode. returns nothing.
+6) makeListElementComponent(text): param - text that needed to be inserted in the note. Description: returns the HTML content for a list element with the given text.
+7) shakeTaskInput(): Description: visually indicates an error by shaking the input field when user tries to add an empty note. returns nothing.
+
+
+
