@@ -89,14 +89,85 @@ video {
 /*general rules*/
 
 html {
-    font-family: 'Poppins';
-    background-color: #F5F7F9;
+    font-family: 'Inter';
+    background-color: #fffef3;
 }
 
 body {
     display: flex;
     justify-content: center;
     flex-direction: column;
+    padding: 20px;
+}
+
+h1::after {
+    content: " (Mobile)";
+    font-size: 0.8em;
+    color: #666;
+}
+
+.list-view{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin: 16px;
+    padding: 0;
+}
+
+.card-view {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+.card-view .list-element-container {
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 1 rem;
+    margin: 10px;
+    transition: transform 0.2s ease;
+}
+.card-view .list-element-container:hover {
+    transform: translateY(-5px);
+}
+
+
+/* Media Queries */
+/* Tablet (768px and up) */
+@media screen and (min-width: 768px) {
+    .list-view .list-element-container {
+        padding: 20px;
+    }
+    .card-view {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 30px;
+    }
+    
+    .card-view .list-element-container {
+        padding: 25px;
+    }
+        h1::after {
+        content: " (Tablet)";
+    }
+}
+
+/* Laptop (1024px and up) */
+@media screen and (min-width: 1024px) {
+    .card-view {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 40px;
+    }
+    
+    .card-view .list-element-container {
+        padding: 30px;
+    }
+     .list-view .list-element-container {
+        padding: 30px;
+    }
+      h1::after {
+        content: " (Laptop)";
+    }
 }
 
 h1 {
@@ -118,7 +189,7 @@ button {
 }
 
 button {
-    border: 1px solid black;
+    border: 2px solid #dcd8c6;
     padding: 1rem;
     border-radius: 1rem;
 }
@@ -133,7 +204,7 @@ button {
 
 #task-input {
     width: 100%;
-    border: 1px solid black;
+    border: 2px solid #dcd8c6;
     padding: 1rem;
     border-radius: 1rem;
 }
@@ -145,20 +216,6 @@ button {
     gap: 1rem;
 }
 
-.toggle-btn {
-    background-color: whitesmoke;
-    width: 50%;
-}
-
-
-
-.card-view {
-    display: flex;
-    flex-wrap: wrap;
-    padding-left: 0;
-    background-color: black;
-}
-
 li {
     display: block;
     width: 100%;
@@ -167,13 +224,6 @@ li {
 li p {
     width: 100%;
     font-size: 14px;
-}
-#task-list-container {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    margin: 16px;
-    padding: 0;
 }
 
 .empty-state {
@@ -193,8 +243,13 @@ li p {
     padding: 16px;
     align-items: center;
     gap: 10px;
+
 }
 
+li p {
+    word-break: break-word;
+       overflow: auto;
+}
 
 
 /*buttons*/
@@ -205,17 +260,9 @@ button:hover {
     cursor: pointer;
 }
 
-.toggle-btn:hover {
-    background-color: royalblue;
-}
-
-.toggle-btn:active {
-    background-color: mediumblue;
-    color: white;
-}
 
 #add-btn:hover {
-    background-color: rgb(236, 191, 137);
+    background-color: #e4dec2
 }
 
 #add-btn:active {
@@ -229,8 +276,8 @@ button:hover {
 
 .view-switch {
     display: flex;
-    background-color: #f9fbfd;
-    border: 2px solid #D6DDE7;
+    background-color: #fdfbf2;
+    border: 2px solid #dcd8c6;
     border-radius: 0.8rem;
     overflow: hidden;
     width: fit-content;
@@ -253,11 +300,11 @@ button:hover {
 }
 
 .switch-option.active {
-    background-color: #D6DDE7;
+    background-color: #dcd8c6;
 }
 
 .switch-option:not(.active):hover {
-    background-color: #eef1f6;
+    background-color: #f4f1e4;
 }
 
 

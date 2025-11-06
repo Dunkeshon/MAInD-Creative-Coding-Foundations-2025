@@ -12,10 +12,10 @@ const taskList = document.getElementById('task-list-container');
 const updateEmptyState = () => {
     if (taskList.children.length === 0) {
         emptyState.style.display = 'block';
-        taskList.style.display = 'none';
+     //   taskList.style.display = 'none';
     } else {
         emptyState.style.display = 'none';
-        taskList.style.display = 'flex';
+       // taskList.style.display = 'flex';
     }
 };
 
@@ -51,6 +51,8 @@ function switchToListView() {
     taskList.classList.add('list-view');
     listButton.classList.add('active');
     cardButton.classList.remove('active');
+    // for each list element remove .card class 
+
 }
 
 function switchToCardView() {
@@ -58,6 +60,9 @@ function switchToCardView() {
     taskList.classList.add('card-view');
     cardButton.classList.add('active');
     listButton.classList.remove('active');
+
+   // for each list element add .card class 
+
 }
 
 function makeListElementComponent(text){
@@ -77,6 +82,9 @@ function makeListElementComponent(text){
 if (listButton && listButton.matches('.switch-option.active')) {
     switchToListView();
 }
+else {
+    switchToCardView();
+}
 
 listButton.addEventListener('click', switchToListView);
 
@@ -92,8 +100,6 @@ addButton.addEventListener('click', () => {
     const listElement = document.createElement('li');
     listElement.className = 'list-element-container';
     listElement.innerHTML = makeListElementComponent(inputValue);
-
-
     const deleteButton = listElement.querySelector('.delete-btn');
     deleteButton.addEventListener('click', () => {
         taskList.removeChild(listElement);
