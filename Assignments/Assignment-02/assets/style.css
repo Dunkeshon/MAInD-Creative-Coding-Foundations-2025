@@ -1,0 +1,30 @@
+#game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+}
+
+#grid-container {
+    display: grid;
+    grid-template-columns: repeat(16, 2rem);
+    grid-template-rows: repeat(16, 2rem);
+    gap: 0;
+   
+}
+
+.default-grid-cell {
+    width: 2rem;
+    height: 2rem;
+    box-sizing: border-box;
+    border: 1px solid #b0b0b0;
+}
+.snake-head {
+    content: url("resources/snakeHead.svg");
+}
+.snake-body{
+    content: url("resources/snakeBody.svg");
+}
+
