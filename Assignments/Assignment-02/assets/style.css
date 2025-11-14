@@ -21,10 +21,20 @@
     box-sizing: border-box;
     border: 1px solid #b0b0b0;
 }
-.snake-head {
+
+/* State: Snake Head */
+.default-grid-cell.state-snake-head {
     content: url("resources/snakeHead.svg");
 }
-.snake-body{
+
+/* State: Snake Body */
+.default-grid-cell.state-snake-body {
     content: url("resources/snakeBody.svg");
+}
+
+/* State: Food */
+.default-grid-cell.state-food {
+    /* content: url("resources/food.svg"); */
+    background-color: red;
 }
 
