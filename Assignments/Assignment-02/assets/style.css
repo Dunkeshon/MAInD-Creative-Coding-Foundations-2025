@@ -1,3 +1,8 @@
+:root {
+    --snake-head-image: url("resources/snakeHappy.svg");
+    --snake-body-image: url("resources/snakeBody.svg");
+}
+
 #game-container {
     display: flex;
     flex-direction: column;
@@ -5,14 +10,46 @@
     justify-content: center;
     height: 100vh;
     background-color: #f0f0f0;
+    position: relative;
+}
+
+#game-title {
+    margin: 20px 0 10px 0;
+    font-size: 1.8rem;
+    color: #333;
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+}
+
+#top-bar {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+#help-button, #skins-button {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid #333;
+    background-color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+#help-button:hover, #skins-button:hover {
+    background-color: #e0e0e0;
+    transform: scale(1.1);
 }
 
 #grid-container {
     display: grid;
-    grid-template-columns: repeat(16, 2rem);
-    grid-template-rows: repeat(16, 2rem);
+    grid-template-columns: repeat(10, 2rem);
+    grid-template-rows: repeat(10, 2rem);
     gap: 0;
-   
 }
 
 .default-grid-cell {
@@ -24,36 +61,224 @@
 
 /* State: Snake Head */
 .default-grid-cell.state-snake-head {
-    content: url("resources/snakeHead.svg");
+    content: var(--snake-head-image);
 }
 
 /* State: Snake Body */
 .default-grid-cell.state-snake-body {
-    content: url("resources/snakeBody.svg");
+    content: var(--snake-body-image);
 }
 
 /* State: Food */
 .default-grid-cell.state-food {
-    /* content: url("resources/food.svg"); */
     background-color: red;
 }
-
 
 #score, #high-score {
     font-family: Arial, sans-serif;
     font-size: 1.5rem;
     margin: 0.5rem;
 }
+
 #score-container {
     display: flex;
     justify-content: space-between;
     width: 20rem;
     margin-bottom: 1rem;
 }
-#game-container{
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    animation: fadeIn 0.3s ease;
+}
+
+.modal.show {
     display: flex;
-    flex-direction: column;
-    align-items: center;
     justify-content: center;
+    align-items: center;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.modal-content {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    text-align: center;
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.modal-content h2 {
+    margin-top: 0;
+    font-size: 2rem;
+    color: #333;
+}
+
+.modal-content h3 {
+    text-align: left;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    color: #555;
+}
+
+.modal-content ul {
+    text-align: left;
+    margin: 10px 0;
+    padding-left: 20px;
+}
+
+.modal-content li {
+    margin: 8px 0;
+    color: #666;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.close:hover {
+    color: #000;
+}
+
+.modal-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px 30px;
+    margin-top: 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.modal-button:hover {
+    background-color: #45a049;
+}
+
+/* Skins Grid */
+.skins-grid {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    margin: 30px 0;
+}
+
+.skin-option {
+    cursor: pointer;
+    padding: 15px;
+    border-radius: 10px;
+    border: 2px solid #ddd;
+    transition: all 0.2s ease;
+    background-color: white;
+}
+
+/* Snake Boy styling */
+.skin-boy {
+    border-color: #ddd;
+    background-color: white;
+}
+
+.skin-boy:hover {
+    border-color: #4CAF50;
+    transform: scale(1.05);
+    box-shadow: 0 2px 12px rgba(76, 175, 80, 0.3);
+}
+
+.skin-boy.selected {
+    border-color: #4CAF50;
+    background-color: #e8f5e9;
+}
+
+.skin-boy.selected:hover {
+    border-color: #45a049;
+    background-color: #d4edda;
+    box-shadow: 0 2px 12px rgba(76, 175, 80, 0.3);
+}
+
+/* Snake Girl styling */
+.skin-girl {
+    background-color: #ffecf4;
+    border-color: #ffc4e2;
+}
+
+.skin-girl:hover {
+    border-color: #ff69b4;
+    background-color: #ffd4e5;
+    transform: scale(1.05);
+    box-shadow: 0 2px 12px rgba(255, 105, 180, 0.3);
+}
+
+.skin-girl.selected {
+    border-color: #ff69b4;
+    background-color: #ffd4e5;
+}
+
+.skin-preview {
+    font-size: 3rem;
+    margin-bottom: 10px;
+}
+
+.skin-option p {
+    margin: 10px 0 0 0;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Game Over Stats */
+.gameover-stats {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    margin: 30px 0;
+}
+
+.stat {
+    text-align: center;
+}
+
+.stat p:first-child {
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.stat-value {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #4CAF50;
 }
 

@@ -1,0 +1,74 @@
+FIND AND REPLACE IN script.js:
+
+FIND (lines 9-10):
+// Modal Management
+let selectedSkin = "boy"; // default skin
+
+REPLACE WITH:
+// Modal Management
+let selectedSkin = "boy"; // default skin
+let wasGameRunningBeforeModal = false; // Track if game was running when modal opened
+
+---
+
+FIND (lines 23-25):
+function openRulesModal() {
+  document.getElementById("rules-modal").classList.add("show");
+}
+
+REPLACE WITH:
+function openRulesModal() {
+  // Save game state and pause if running
+  if (isGameStarted) {
+    wasGameRunningBeforeModal = true;
+    isGameStarted = false;
+    clearInterval(gameLoopInterval);
+  }
+  document.getElementById("rules-modal").classList.add("show");
+}
+
+---
+
+FIND (lines 32-34):
+function openSkinModal() {
+  document.getElementById("skins-modal").classList.add("show");
+}
+
+REPLACE WITH:
+function openSkinModal() {
+  // Save game state and pause if running
+  if (isGameStarted) {
+    wasGameRunningBeforeModal = true;
+    isGameStarted = false;
+    clearInterval(gameLoopInterval);
+  }
+  document.getElementById("skins-modal").classList.add("show");
+}
+
+---
+
+FIND (lines 36-38):
+function closeSkinModal() {
+  document.getElementById("skins-modal").classList.remove("show");
+}
+
+REPLACE WITH:
+function closeSkinModal() {
+  document.getElementById("skins-modal").classList.remove("show");
+  // Resume game if it was running before modal opened
+  if (wasGameRunningBeforeModal) {
+    isGameStarted = true;
+    gameLoopInterval = setInterval(gameLoop, 200);
+    wasGameRunningBeforeModal = false;
+  }
+}
+
+---
+
+ALSO UPDATE (lines 82-84 approx):
+  // Show rules on page load
+  openRulesModal();
+  updateSkinAssets(); // Initialize default skin
+
+KEEP AS IS - it now shows both rules AND skins on first load because:
+  openRulesModal() → closeRulesModal() → openSkinModal()

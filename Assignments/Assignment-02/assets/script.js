@@ -6,6 +6,120 @@ const Direction = Object.freeze({
   Down: { degrees: 180, col: 0, row: 1 },
 });
 
+// Modal Management
+let selectedSkin = "boy"; // default skin
+let isInitSetup = true;
+
+const skinAssets = {
+  boy: {
+    head: "resources/snakeHappy.svg",
+    body: "resources/snakeBody.svg",
+  },
+  girl: {
+    head: "resources/snakeGirlHead.svg",
+    body: "resources/snakeGirlBody.svg",
+  },
+};
+
+function openRulesModal() {
+  document.getElementById("rules-modal").classList.add("show");
+  pauseGame(); 
+}
+
+function closeRulesModal() {
+  document.getElementById("rules-modal").classList.remove("show");
+  
+  if (isInitSetup) {
+    openSkinModal(); // Show skin selection after rules
+    isInitSetup = false;
+  }
+  else {
+    startGame();
+  }
+}
+
+function openSkinModal() {
+  document.getElementById("skins-modal").classList.add("show");
+  pauseGame(); 
+}
+
+function closeSkinModal() {
+  document.getElementById("skins-modal").classList.remove("show");
+}
+
+function selectSkin(skin) {
+  selectedSkin = skin;
+  const skinOptions = document.querySelectorAll(".skin-option");
+  skinOptions.forEach((option) => {
+    option.classList.remove("selected");
+  });
+  
+  // Mark selected skin
+  if (skin === "boy") {
+    document.querySelector(".skin-boy").classList.add("selected");
+  } else {
+    document.querySelector(".skin-girl").classList.add("selected");
+  }
+  
+  // Update CSS variables for current skin
+  updateSkinAssets();
+  // Only redraw if game is actively running
+  if (isGameStarted) {
+    redrawGameField(gameTiles2d, headTile, bodyTiles);
+  }
+}
+
+function updateSkinAssets() {
+  const skin = skinAssets[selectedSkin];
+  document.documentElement.style.setProperty("--snake-head-image", `url("${skin.head}")`);
+  document.documentElement.style.setProperty("--snake-body-image", `url("${skin.body}")`);
+}
+
+function showGameOverModal() {
+  document.getElementById("final-score").innerText = score;
+  document.getElementById("final-high-score").innerText = highScore;
+  document.getElementById("gameover-modal").classList.add("show");
+}
+
+function restartGame() {
+  document.getElementById("gameover-modal").classList.remove("show");
+  resetGame();
+  startGame();
+  //openRulesModal(); // Show rules again before new game
+}
+
+// Close modals when clicking the X button
+document.addEventListener("DOMContentLoaded", function () {
+  const rulesModal = document.getElementById("rules-modal");
+  const skinsModal = document.getElementById("skins-modal");
+  const gameoverModal = document.getElementById("gameover-modal");
+
+  // Show rules on page load
+  openRulesModal();
+  updateSkinAssets(); // Initialize default skin
+
+  // Close button handlers
+  document.querySelectorAll(".close").forEach((closeBtn) => {
+    closeBtn.addEventListener("click", function () {
+      if (this.closest("#rules-modal")) {
+        closeRulesModal();
+      } else if (this.closest("#skins-modal")) {
+        closeSkinModal();
+      }
+    });
+  });
+
+  // Help button
+  document.getElementById("help-button").addEventListener("click", function () {
+    openRulesModal();
+  });
+
+  // Skins button
+  document.getElementById("skins-button").addEventListener("click", function () {
+    openSkinModal();
+  });
+});
+
 // function rotateElement(element, rotation = Direction.Top) {
 //   element.style.transform = `rotate(${rotation.degrees}deg)`;
 //   currentDirection = rotation;
@@ -46,6 +160,18 @@ function resetGame() {
   clearInterval(gameLoopInterval);
   score = 0;
   document.getElementById("score").innerText = `Score: ${score}`;
+
+  // Clear all tiles
+  for (let row = 0; row < ROW_COUNT; row++) {
+    for (let col = 0; col < COL_COUNT; col++) {
+      gameTiles2d[row][col].classList.remove(
+        "state-snake-head",
+        "state-snake-body",
+        "state-food"
+      );
+      gameTiles2d[row][col].style.transform = "";
+    }
+  }
 }
 function makeNewFood() {
   if (foodTile.row !== null && foodTile.col !== null) {
@@ -63,12 +189,21 @@ async function gameLoop() {
     return;
   }
   // determine if can move in desired direction
-  let potentialPosition = {
+  // Normalize the desired potential position into the wrapped grid coordinates
+  let potentialPosition;
+  const rawDesired = {
     row: headTile.row + desiredDirection.row,
     col: headTile.col + desiredDirection.col,
   };
-  if (canChangeDirectionToDesired(potentialPosition, bodyTiles)) {
+  const wrappedDesired = {
+    row: ((rawDesired.row % ROW_COUNT) + ROW_COUNT) % ROW_COUNT,
+    col: ((rawDesired.col % COL_COUNT) + COL_COUNT) % COL_COUNT,
+  };
+
+  if (canChangeDirectionToDesired(wrappedDesired, bodyTiles)) {
     currentDirection = desiredDirection;
+    //shalow copy. To not change the reference of original object
+    potentialPosition = { ...wrappedDesired };
   } else {
     // don't change direction - keep moving in current direction
     potentialPosition = {
@@ -80,27 +215,20 @@ async function gameLoop() {
   //rotate head
 
   redrawGameField(gameTiles2d, headTile, bodyTiles);
-  gameTiles2d[headTile.row][
-    headTile.col
-  ].style.transform = `rotate(${currentDirection.degrees}deg)`;
+
+  // Apply rotation and horizontal flip for left direction
+  let transform = `rotate(${currentDirection.degrees}deg)`;
+  if (currentDirection === Direction.Left) {
+    transform += ` scaleX(-1)`;
+  }
+  gameTiles2d[headTile.row][headTile.col].style.transform = transform;
   if (isGameOver) {
     await new Promise((resolve) => setTimeout(resolve, 50));
-    // Show custom alert - click to reset game
-    if (confirm("Game Over! Click OK to play again.")) {
-      resetGame();
-      // Clear all tiles
-      for (let row = 0; row < ROW_COUNT; row++) {
-        for (let col = 0; col < COL_COUNT; col++) {
-          gameTiles2d[row][col].classList.remove(
-            "state-snake-head",
-            "state-snake-body",
-            "state-food"
-          );
-          gameTiles2d[row][col].style.transform = "";
-        }
-      }     
-      startGame();
-    }
+    isGameStarted = false;
+    clearInterval(gameLoopInterval);
+    const deathSound = new Audio("assets/resources/loseSound.wav");
+    deathSound.play();
+    showGameOverModal();
   }
 }
 
@@ -116,23 +244,45 @@ function canChangeDirectionToDesired(potentialPosition, bodyTiles) {
     potentialPosition.row === firstBodyTile.row &&
     potentialPosition.col === firstBodyTile.col;
 
+
+  // // TODO: Check if all body tiles are above the head only on this column when moving Down
+  //   if (desiredDirection === Direction.Down && bodyTiles.every(tile => tile.col === headTile.col)) {
+  //      if (potentialPosition.row % ROW_COUNT === bodyTiles[1].row){
+  //       isWantToTurnInside = true;
+  //      }
+  //     // Add logic here if needed
+  //   }
+
+  // if(headTile.row === ROW_COUNT && desiredDirection === Direction.Right){
+  //   isWantToTurnInside = true;
+  // }else if (headTile.row === 0 && desiredDirection === Direction.Left){
+  //   isWantToTurnInside = true;
+  // }
+
   // if we want to turn into ourself - don't allow
   if (isWantToTurnInside) {
+    desiredDirection = currentDirection;
     return false;
   }
   return true;
 }
-function consumeFood(oldRow,oldCol){
-    foodTile = { row: null, col: null };
-    //add new body tile at the end
-    bodyTiles.push({ row: oldRow, col: oldCol });
-    makeNewFood();
-    score ++;
-    document.getElementById("score").innerText = `Score: ${score}`;
-    if (score > highScore) {
-      highScore = score;
-      document.getElementById("high-score").innerText = `High Score: ${highScore}`;
-    }
+function consumeFood(oldRow, oldCol) {
+  // Play sound when food is consumed
+  const collectSound = new Audio("assets/resources/CollectSound.wav");
+  collectSound.play();
+
+  foodTile = { row: null, col: null };
+  //add new body tile at the end
+  bodyTiles.push({ row: oldRow, col: oldCol });
+  makeNewFood();
+  score++;
+  document.getElementById("score").innerText = `Score: ${score}`;
+  if (score > highScore) {
+    highScore = score;
+    document.getElementById(
+      "high-score"
+    ).innerText = `High Score: ${highScore}`;
+  }
 }
 function updateSnakePosition(desiredPosition, headTile, bodyTiles) {
   // if (desiredPosition) {
@@ -166,7 +316,7 @@ function updateSnakePosition(desiredPosition, headTile, bodyTiles) {
     oldCol = prevCol;
   }
   if (hasColisionWithFood(headTile, foodTile)) {
-    consumeFood(oldRow,oldCol);
+    consumeFood(oldRow, oldCol);
   }
   //collision with self - defeat
   if (
@@ -204,8 +354,8 @@ function redrawGameField(gameTiles2d, headTile, bodyTiles) {
 
 // grid 64 / 64
 //
-const ROW_COUNT = 16;
-const COL_COUNT = 16;
+const ROW_COUNT = 10;
+const COL_COUNT = 10;
 
 let desiredDirection = Direction.Up;
 let currentDirection = Direction.Up;
@@ -255,7 +405,6 @@ document.addEventListener("keydown", (event) => {
   switch (event.key) {
     case "ArrowLeft":
       desiredDirection = Direction.Left;
-      console.log("left", desiredDirection);
       break;
     case "ArrowRight":
       desiredDirection = Direction.Right;
@@ -270,21 +419,23 @@ document.addEventListener("keydown", (event) => {
       startGame();
       break;
     case "Escape":
-      if (!isGameStarted) {
-        break;
-      }
-      isGameStarted = false;
-      clearInterval(gameLoopInterval);
+      pauseGame();
       break;
   }
 });
 
-function startGame(){
+function pauseGame() {
+   if (!isGameStarted) {
+        return;
+      }
+      isGameStarted = false;
+      clearInterval(gameLoopInterval);
+}
+function startGame() {
   if (isGameStarted) {
     return;
   }
   isGameStarted = true;
   makeNewFood();
-  gameLoopInterval = setInterval(gameLoop, 300); // move every 200ms
-} 
-
+  gameLoopInterval = setInterval(gameLoop, 200); // move every 200ms
+}
