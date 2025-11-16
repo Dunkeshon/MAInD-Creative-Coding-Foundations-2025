@@ -44,6 +44,8 @@ function resetGame() {
   isGameStarted = false;
   isGameOver = false;
   clearInterval(gameLoopInterval);
+  score = 0;
+  document.getElementById("score").innerText = `Score: ${score}`;
 }
 function makeNewFood() {
   if (foodTile.row !== null && foodTile.col !== null) {
@@ -97,7 +99,7 @@ async function gameLoop() {
           gameTiles2d[row][col].style.transform = "";
         }
       }     
-      //after it gameover fires after escape, enter. Not fire when collision with self. have leftover old body tiles move on the field until they return to body
+      startGame();
     }
   }
 }
@@ -119,6 +121,18 @@ function canChangeDirectionToDesired(potentialPosition, bodyTiles) {
     return false;
   }
   return true;
+}
+function consumeFood(oldRow,oldCol){
+    foodTile = { row: null, col: null };
+    //add new body tile at the end
+    bodyTiles.push({ row: oldRow, col: oldCol });
+    makeNewFood();
+    score ++;
+    document.getElementById("score").innerText = `Score: ${score}`;
+    if (score > highScore) {
+      highScore = score;
+      document.getElementById("high-score").innerText = `High Score: ${highScore}`;
+    }
 }
 function updateSnakePosition(desiredPosition, headTile, bodyTiles) {
   // if (desiredPosition) {
@@ -152,10 +166,7 @@ function updateSnakePosition(desiredPosition, headTile, bodyTiles) {
     oldCol = prevCol;
   }
   if (hasColisionWithFood(headTile, foodTile)) {
-    foodTile = { row: null, col: null };
-    //add new body tile at the end
-    bodyTiles.push({ row: oldRow, col: oldCol });
-    makeNewFood();
+    consumeFood(oldRow,oldCol);
   }
   //collision with self - defeat
   if (
@@ -237,6 +248,8 @@ let foodTile = { row: null, col: null };
 let gameLoopInterval = null;
 let isGameStarted = false;
 let isGameOver = false;
+let score = 0;
+let highScore = 0;
 
 document.addEventListener("keydown", (event) => {
   switch (event.key) {
@@ -254,12 +267,7 @@ document.addEventListener("keydown", (event) => {
       desiredDirection = Direction.Down;
       break;
     case "Enter":
-      if (isGameStarted) {
-        break;
-      }
-      isGameStarted = true;
-      makeNewFood();
-      gameLoopInterval = setInterval(gameLoop, 300); // move every 200ms
+      startGame();
       break;
     case "Escape":
       if (!isGameStarted) {
@@ -270,3 +278,13 @@ document.addEventListener("keydown", (event) => {
       break;
   }
 });
+
+function startGame(){
+  if (isGameStarted) {
+    return;
+  }
+  isGameStarted = true;
+  makeNewFood();
+  gameLoopInterval = setInterval(gameLoop, 300); // move every 200ms
+} 
+

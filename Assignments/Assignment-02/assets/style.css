@@ -38,3 +38,22 @@
     background-color: red;
 }
 
+
+#score, #high-score {
+    font-family: Arial, sans-serif;
+    font-size: 1.5rem;
+    margin: 0.5rem;
+}
+#score-container {
+    display: flex;
+    justify-content: space-between;
+    width: 20rem;
+    margin-bottom: 1rem;
+}
+#game-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
