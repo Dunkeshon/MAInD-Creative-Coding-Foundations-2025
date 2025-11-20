@@ -10,10 +10,14 @@ Choose a “mini-game” to rebuild with HTML, CSS and JavaScript. The requireme
 - Implement an “automatic restart” in the game (that is not done via the refresh of the page)
 
 
-##Screenshots
-
-##Project Description
-##Block diagram
+## Screenshots
+![Instructions](DOCS/Instructions.png)
+![SkinsMenu](DOCS/SkinsMenu.png)
+![snakeMoving](DOCS/snakeMoving.png)
+![GameOVer](DOCS/GameOVer.png)
+## Project Description
+This is a snake game. Eat food to grow bigger and gain points, game over if hit yourself. You can wrap around edges. Pause, resume game and change ckins.   
+## Block diagram
 ```mermaid
 graph TD
     A[Game Start] --> B[Show Rules Modal]
