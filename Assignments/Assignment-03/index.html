@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='75' font-size='75'>🐍</text></svg>" />
+    <link rel="stylesheet" href="assets/style.css" />
+    <script src="api_key.js"></script>
+    <script src="assets/script.js" defer></script>
+    <link
+      href="https://fonts.googleapis.com/css?family=Inter"
+      rel="stylesheet"
+    />
+    <title>Snake game</title>
+  </head>
+
+  <body>
+    <div id="game-container">
+      <div id="top-bar">
+        <button id="help-button" title="Show rules and controls">?</button>
+        <button id="skins-button" title="Choose snake skin">👕</button>
+        <button id="sounds-button" title="Choose game sounds">🔊</button>
+      </div>
+
+      <h1 id="game-title">🐍 Snake Game</h1>
+
+      <div id="score-container">
+        <div id="score">Score: 0</div>
+        <div id="high-score">High Score: 0</div>
+      </div>
+
+      <div id="grid-container"></div>
+    </div>
+
+    <!-- Rules Modal -->
+    <div id="rules-modal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>🐍 Snake Game</h2>
+        <div class="rules-text">
+          <h3>Controls:</h3>
+          <ul>
+            <li><strong>Arrow Keys</strong> - Move the snake</li>
+            <li><strong>Enter</strong> - Start / Resume game</li>
+            <li><strong>Escape</strong> - Pause game</li>
+          </ul>
+          <h3>Rules:</h3>
+          <ul>
+            <li>Eat the red food to grow longer</li>
+            <li>Don't crash into yourself</li>
+            <li>The snake wraps around the edges</li>
+          </ul>
+        </div>
+        <button class="modal-button" onclick="closeRulesModal()">Got it!</button>
+      </div>
+    </div>
+
+    <!-- Skins Modal -->
+    <div id="skins-modal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeSkinModal()">&times;</span>
+        <h2>Choose Your Snake 🐍</h2>
+        <div class="skins-grid">
+          <div class="skin-option skin-boy selected" onclick="selectSkin('boy')">
+            <div class="skin-preview" id="skin-boy">🐍</div>
+            <p>Snake Boy</p>
+          </div>
+          <div class="skin-option skin-girl" onclick="selectSkin('girl')">
+            <div class="skin-preview" id="skin-girl">🐍</div>
+            <p>Snake Girl</p>
+          </div>
+        </div>
+        <button class="modal-button" onclick="closeSkinModal(); startGame();">Play!</button>
+      </div>
+    </div>
+
+    <!-- Sounds Modal -->
+    <div id="sounds-modal" class="modal">
+      <div class="modal-content sounds-modal-content">
+        <span class="close" onclick="closeSoundsModal()">&times;</span>
+        <h2>Choose Game Sounds 🔊</h2>
+        
+        <div class="sounds-container">
+          <div class="sound-section">
+            <h3>Eat Sound</h3>
+            <div id="eat-sounds-grid" class="sounds-grid">
+              <p style="text-align: center; color: #999;">Loading sounds...</p>
+            </div>
+          </div>
+
+          <div class="sound-section">
+            <h3>Death Sound</h3>
+            <div id="death-sounds-grid" class="sounds-grid">
+              <p style="text-align: center; color: #999;">Loading sounds...</p>
+            </div>
+          </div>
+        </div>
+
+        <button class="modal-button" onclick="closeSoundsModal()">Done!</button>
+      </div>
+    </div>
+
+    <!-- Game Over Modal -->
+    <div id="gameover-modal" class="modal">
+      <div class="modal-content">
+        <h2>Game Over!</h2>
+        <div class="gameover-stats">
+          <div class="stat">
+            <p>Score</p>
+            <p id="final-score" class="stat-value">0</p>
+          </div>
+          <div class="stat">
+            <p>High Score</p>
+            <p id="final-high-score" class="stat-value">0</p>
+          </div>
+        </div>
+        <button class="modal-button" onclick="restartGame()">Play Again</button>
+      </div>
+    </div>
+  </body>
+</html>
